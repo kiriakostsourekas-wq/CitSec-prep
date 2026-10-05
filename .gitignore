@@ -1,0 +1,12 @@
+.rocketride/
+.env
+# local environment & caches
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# your backups from tools/reset.py
+exercise_attempt_*.py
+# unrelated editor/tool config that lives in this folder locally
+.github/
+.claude/
