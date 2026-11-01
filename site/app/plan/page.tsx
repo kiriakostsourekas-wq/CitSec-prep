@@ -23,11 +23,12 @@ export default function PlanPage() {
         <div className="label text-accent">Study plan · Citadel track</div>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">Your roadmap to the superday</h1>
         <p className="mt-3 max-w-2xl text-muted">
-          Six sessions of about three hours each (≈ 13 h core). Short on time? Switch to the 6-hour fast track. The evening before,
-          go through the checklist.
+          Seven sessions of about three hours each, plus eight minutes of mental math every day. Short on time? Switch to the
+          fast track. The evening before, go through the checklist.
         </p>
         <Roadmap
           sessions={content.plan.sessions.map((s) => ({ n: s.n, hours: s.hours, items: s.items.map(toItem) }))}
+          daily={content.plan.daily.map(toItem)}
           fastTrack={content.plan.fastTrack.map(toItem)}
           checklist={checklist}
         />

@@ -14,13 +14,20 @@ const BADGE: Record<Rating, string> = { nailed: "bg-pass", shaky: "bg-accent", m
 /** Interviewer follow-ups as say-it-out-loud cards with self-rating. */
 export function FollowUps({ folder, sections }: { folder: string; sections: Section[] }) {
   const progress = useProgress();
-  const cards: { summary: string; md: string; key: string }[] = [];
-  const intro: string[] = [];
-  for (const s of sections)
+  // Keep the README's order: section titles and topic headings sit between the question cards.
+  type CardData = { summary: string; md: string; key: string };
+  const items: ({ kind: "heading"; text: string } | { kind: "md"; md: string } | { kind: "card"; card: CardData; index: number })[] = [];
+  const cards: CardData[] = [];
+  for (const s of sections) {
+    if (sections.length > 1 && s.heading) items.push({ kind: "heading", text: s.heading });
     for (const b of s.blocks) {
-      if (b.kind === "fold") cards.push({ summary: b.summary, md: b.md, key: `${folder}:fu:${cards.length}` });
-      else intro.push(b.md);
+      if (b.kind === "fold") {
+        const card = { summary: b.summary, md: b.md, key: `${folder}:fu:${cards.length}` };
+        items.push({ kind: "card", card, index: cards.length });
+        cards.push(card);
+      } else items.push({ kind: "md", md: b.md });
     }
+  }
   const rated = cards.map((c) => progress.followUps[c.key]);
   const count = (r: Rating) => rated.filter((x) => x === r).length;
 
@@ -39,13 +46,18 @@ export function FollowUps({ folder, sections }: { folder: string; sections: Sect
           <span className="text-dim">○ {cards.length - rated.filter(Boolean).length} to do</span>
         </div>
       </div>
-      {intro.map((md, i) => (
-        <Markdown key={i} md={md} />
-      ))}
       <div className="space-y-3">
-        {cards.map((c, i) => (
-          <Card key={c.key} index={i} card={c} rating={progress.followUps[c.key]} />
-        ))}
+        {items.map((it, i) =>
+          it.kind === "heading" ? (
+            <h2 key={i} className="pt-4 text-lg font-semibold tracking-tight text-text">
+              {it.text}
+            </h2>
+          ) : it.kind === "md" ? (
+            <Markdown key={i} md={it.md} className="[&_h3]:mt-6" />
+          ) : (
+            <Card key={it.card.key} index={it.index} card={it.card} rating={progress.followUps[it.card.key]} />
+          ),
+        )}
       </div>
     </div>
   );
@@ -53,7 +65,7 @@ export function FollowUps({ folder, sections }: { folder: string; sections: Sect
 
 function Card({ index, card, rating }: { index: number; card: { summary: string; md: string; key: string }; rating?: Rating }) {
   const [open, setOpen] = useState(false);
-  const question = card.summary.replace(/^\d+\.\s*/, "");
+  const question = card.summary.replace(/^\d+[.)]?\s+/, "");
   const rate = (r: Rating) => updateProgress((p) => ({ ...p, followUps: { ...p.followUps, [card.key]: r } }));
 
   return (
