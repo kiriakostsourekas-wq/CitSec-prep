@@ -21,6 +21,7 @@ export type Module = {
   slug: string;
   number: string;
   title: string;
+  short: string;
   time: string;
   blurb: string;
   tags: string[];
@@ -39,7 +40,8 @@ export type Content = {
   modules: Module[];
   guide: { main: Doc; cv: Doc; mlStats: Doc };
   cheatsheets: Doc[];
-  plan: { sessions: { n: number; hours: number; items: PlanItem[] }[]; fastTrack: PlanItem[] };
+  mentalMath: Doc;
+  plan: { sessions: { n: number; hours: number; items: PlanItem[] }[]; daily: PlanItem[]; fastTrack: PlanItem[] };
 };
 
 export const content = raw as unknown as Content;
@@ -55,6 +57,7 @@ export const followUpCount = (m: Module) =>
 /** Where a study-plan item points on the site. */
 export function planHref(key: string) {
   if (key === "guide") return "/guide";
+  if (key === "mental-math") return "/mental-math";
   if (key.startsWith("guide/")) return "/" + key;
   const m = moduleByFolder(key);
   return m ? `/modules/${m.slug}` : "/";
@@ -63,6 +66,7 @@ export function planLabel(key: string) {
   if (key === "guide") return "Interview guide";
   if (key === "guide/cv") return "CV deep dive";
   if (key === "guide/ml-stats") return "ML & stats rapid-fire";
+  if (key === "mental-math") return "Mental math";
   const m = moduleByFolder(key);
   return m ? `${m.number} · ${m.title}` : key;
 }

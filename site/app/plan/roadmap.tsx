@@ -41,10 +41,12 @@ function Item({ it }: { it: RoadmapItem }) {
 
 export function Roadmap({
   sessions,
+  daily,
   fastTrack,
   checklist,
 }: {
   sessions: { n: number; hours: number; items: RoadmapItem[] }[];
+  daily: RoadmapItem[];
   fastTrack: RoadmapItem[];
   checklist: string[];
 }) {
@@ -56,8 +58,8 @@ export function Roadmap({
       <div>
         <div className="mb-6 inline-flex rounded-lg border border-line bg-raised p-1 text-sm">
           {[
-            [false, "Full plan · ≈ 13 h"],
-            [true, "Fast track · ≈ 6 h"],
+            [false, `Full plan · ≈ ${sessions.reduce((h, s) => h + s.hours, 0)} h`],
+            [true, "Fast track · ≈ 7 h"],
           ].map(([v, label]) => (
             <button
               key={String(v)}
@@ -96,6 +98,14 @@ export function Roadmap({
             ))}
           </ol>
         )}
+        <div className="mt-5 rounded-2xl border border-line bg-raised p-2">
+          <div className="px-3 pb-1 pt-2">
+            <span className="label">Every day</span>
+          </div>
+          {daily.map((it, i) => (
+            <Item key={i} it={it} />
+          ))}
+        </div>
         <p className="mt-6 text-sm text-dim">
           Extra time? Do the bonuses (06 D2–D3, 09 D1–D2), reset whatever felt hardest and redo it, then redo the mock.
         </p>

@@ -18,31 +18,34 @@ const exists = (rel) => fs.existsSync(path.join(REPO, rel));
 
 // Hand-written framing for each module; everything else is parsed from the repo.
 const MODULE_META = {
-  "01_python_warmup": { blurb: "Loops, dicts, sorting, a class and csv, all in plain Python with no libraries.", tags: ["python"] },
-  "02_numpy_pandas_basics": { blurb: "Arrays, axis and broadcasting; DataFrames, groupby, pivot, rolling; Sharpe and drawdown.", tags: ["numpy", "pandas"] },
-  "03_data_preprocessing": { blurb: "Messy customer data to a clean feature matrix, without leaking the test set.", tags: ["pandas", "ml"] },
-  "04_linear_regression": { blurb: "OLS three ways, ridge, standard errors, and the famous duplicate-data question.", tags: ["ml", "stats"], star: true },
-  "05_logistic_regression": { blurb: "Sigmoid, log-loss, gradient descent, precision/recall, ROC-AUC, odds ratios.", tags: ["ml", "stats"] },
-  "06_knn_classification": { blurb: "kNN from scratch, feature scaling, k-fold CV by hand, bonus Naive Bayes.", tags: ["ml"] },
-  "07_decision_tree": { blurb: "Gini and entropy, best split, a recursive tree, and overfitting versus depth.", tags: ["ml"] },
-  "08_probability_simulation": { blurb: "Exact answers versus Monte Carlo, plus 12 interview probability questions.", tags: ["probability"] },
-  "09_algorithms": { blurb: "Moving average, two-sum, DP, heaps, and a bonus limit order book.", tags: ["coding"] },
-  "10_mock_interview": { blurb: "A timed 60-minute end-to-end ML case with the interviewer's script.", tags: ["mock"], star: true },
+  "01_python_warmup": { short: "Python warm-up", blurb: "Loops, dicts, sorting, a class and csv, all in plain Python with no libraries.", tags: ["python"] },
+  "02_numpy_pandas_basics": { short: "numpy & pandas", blurb: "Arrays, axis and broadcasting; DataFrames, groupby, pivot, rolling; Sharpe and drawdown.", tags: ["numpy", "pandas"] },
+  "03_data_preprocessing": { short: "Data cleaning", blurb: "Messy customer data to a clean feature matrix, without leaking the test set.", tags: ["pandas", "ml"] },
+  "04_linear_regression": { short: "Linear regression", blurb: "OLS three ways, ridge, standard errors, and the famous duplicate-data question.", tags: ["ml", "stats"], star: true },
+  "05_logistic_regression": { short: "Logistic regression", blurb: "Sigmoid, log-loss, gradient descent, precision/recall, ROC-AUC, odds ratios.", tags: ["ml", "stats"] },
+  "06_knn_classification": { short: "kNN", blurb: "kNN from scratch, feature scaling, k-fold CV by hand, bonus Naive Bayes.", tags: ["ml"] },
+  "07_decision_tree": { short: "Decision trees", blurb: "Gini and entropy, best split, a recursive tree, and overfitting versus depth.", tags: ["ml"] },
+  "08_probability_simulation": { short: "Probability by simulation", blurb: "Exact answers versus Monte Carlo, plus 12 interview probability questions.", tags: ["probability"] },
+  "09_algorithms": { short: "Algorithms", blurb: "Moving average, two-sum, DP, heaps, and a bonus limit order book.", tags: ["coding"] },
+  "10_mock_interview": { short: "Mock interview", blurb: "A timed 60-minute end-to-end ML case with the interviewer's script.", tags: ["mock"], star: true },
+  "12_probability_ev": { short: "Probability & EV", blurb: "What would you pay to play? EV, waiting times, Bayes, symmetry, optimal stopping, plus a bank of paper problems.", tags: ["probability"], star: true },
 };
 
-// The study plan from the root README (Citadel track).
+// The study plan (the root README's Citadel plan, plus a probability session and a daily drill).
 const SESSIONS = [
   { n: 1, hours: 3, items: [["guide", "format, how to answer, profile"], ["01_python_warmup"], ["02_numpy_pandas_basics", "part A (numpy)"]] },
   { n: 2, hours: 3, items: [["02_numpy_pandas_basics", "parts B–D (pandas)"], ["03_data_preprocessing"]] },
-  { n: 3, hours: 3, items: [["04_linear_regression", "+ its follow-ups"], ["guide/cv", "first pass of the CV deep dive"]] },
+  { n: 3, hours: 3, items: [["04_linear_regression", "+ its follow-ups"], ["guide/cv", "first pass"]] },
   { n: 4, hours: 3, items: [["05_logistic_regression"], ["06_knn_classification", "A–C"]] },
   { n: 5, hours: 3.5, items: [["07_decision_tree"], ["08_probability_simulation"]] },
-  { n: 6, hours: 3, items: [["09_algorithms", "A–C"], ["10_mock_interview", "timed"], ["guide/ml-stats", "rapid-fire ML/stats"]] },
+  { n: 6, hours: 3, items: [["12_probability_ev", "tasks, then the problem bank out loud"]] },
+  { n: 7, hours: 3, items: [["09_algorithms", "A–C"], ["10_mock_interview", "timed"], ["guide/ml-stats"]] },
 ];
+const DAILY = [["mental-math", "one 8-minute run"]];
 const FAST_TRACK = [
   ["guide", "Interview guide + CV file"], ["04_linear_regression"], ["05_logistic_regression"],
   ["07_decision_tree", "A–C"], ["09_algorithms", "A1–A3"], ["08_probability_simulation", "README questions"],
-  ["04_linear_regression", "follow-ups in 04 / 05 / 07"],
+  ["12_probability_ev", "problem bank §1–3, out loud"], ["04_linear_regression", "follow-ups in 04 / 05 / 07"],
 ];
 
 const slugOf = (folder) => folder.replace(/^\d+_/, "").replace(/_/g, "-");
@@ -51,7 +54,7 @@ const slugOf = (folder) => folder.replace(/^\d+_/, "").replace(/_/g, "-");
 /** Rewrite `04_linear_regression/...` style references into site links. */
 function linkify(md) {
   return md
-    .replace(/`((?:0[1-9]|10)_[a-z_]+)(\/[^`]*)?`/g, (m, folder) => (MODULE_META[folder] ? `[${m}](/modules/${slugOf(folder)})` : m))
+    .replace(/`((?:0[1-9]|1[0-2])_[a-z_]+)(\/[^`]*)?`/g, (m, folder) => (MODULE_META[folder] ? `[${m}](/modules/${slugOf(folder)})` : m))
     .replace(/`(?:00\/|00_interview_guide\/)?cv_and_behavioral\.md`/g, (m) => `[${m}](/guide/cv)`)
     .replace(/`(?:00\/|00_interview_guide\/)?ml_stats_questions\.md`/g, (m) => `[${m}](/guide/ml-stats)`)
     .replace(/`00_interview_guide\/README\.md`/g, (m) => `[${m}](/guide)`);
@@ -164,7 +167,7 @@ function dataFiles(folder, sources) {
   const files = new Set();
   if (exists(`${folder}/data`)) for (const f of fs.readdirSync(path.join(REPO, folder, "data"))) files.add(`${folder}/data/${f}`);
   for (const src of sources)
-    for (const m of src.matchAll(/"((?:0[1-9]|10)_[a-z_]+)"\s*\/\s*"data"\s*\/\s*"([\w.-]+)"/g)) files.add(`${m[1]}/data/${m[2]}`);
+    for (const m of src.matchAll(/"((?:0[1-9]|1[0-2])_[a-z_]+)"\s*\/\s*"data"\s*\/\s*"([\w.-]+)"/g)) files.add(`${m[1]}/data/${m[2]}`);
   return [...files].sort();
 }
 
@@ -191,7 +194,7 @@ function buildModule(folder) {
   for (const rel of [`${folder}/check.py`, `${folder}/solution.py`, ...data]) copyToKit(rel);
 
   const secs = sections(stripTitle(readme));
-  const isFollowUps = (h) => /follow-up|questions to practise|wrap-up/i.test(h);
+  const isFollowUps = (h) => /follow-up|questions to practise|problem bank|wrap-up/i.test(h);
   return {
     folder,
     slug: slugOf(folder),
@@ -235,8 +238,11 @@ const content = {
   },
   cheatsheets: fs.readdirSync(path.join(REPO, "cheatsheets")).filter((f) => f.endsWith(".md")).sort()
     .map((f) => buildDoc(`cheatsheets/${f}`, { slug: f.replace(/(_cheatsheet)?\.md$/, "").replace(/_/g, "-") })),
+  // 11_mental_math is a drill, not an exercise folder: keep its reference sections (the intro is about the CLI).
+  mentalMath: { ...buildDoc("11_mental_math/README.md", { slug: "mental-math" }), sections: buildDoc("11_mental_math/README.md").sections.filter((s) => s.heading) },
   plan: {
     sessions: SESSIONS,
+    daily: DAILY,
     fastTrack: FAST_TRACK,
   },
 };

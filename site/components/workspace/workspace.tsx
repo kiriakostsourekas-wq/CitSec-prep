@@ -122,7 +122,9 @@ export function Workspace({ module: m }: { module: Module }) {
   const tabs: { id: Tab; label: string; badge?: string }[] = [
     { id: "learn", label: "Learn" },
     { id: "tasks", label: "Tasks", badge: `${passed}/${m.tasks.length}` },
-    ...(m.followUps.length ? [{ id: "followups" as Tab, label: "Follow-ups" }] : []),
+    ...(m.followUps.length
+      ? [{ id: "followups" as Tab, label: m.followUps.some((s) => /problem|questions/i.test(s.heading)) ? "Questions" : "Follow-ups" }]
+      : []),
   ];
 
   return (

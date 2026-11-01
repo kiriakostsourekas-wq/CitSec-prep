@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 const NAV = [
   { href: "/plan", label: "Roadmap" },
   { href: "/modules", label: "Modules" },
+  { href: "/mental-math", label: "Mental math" },
   { href: "/cv", label: "CV coach" },
   { href: "/guide", label: "Guide" },
   { href: "/cheatsheets", label: "Cheatsheets" },
@@ -46,9 +47,6 @@ export function SiteHeader() {
             );
           })}
         </nav>
-        <span className="ml-auto hidden items-center gap-2 font-mono text-[11px] text-dim md:flex">
-          <span className="size-1.5 rounded-full bg-pass" /> runs in your browser · no sign-up
-        </span>
       </div>
     </header>
   );

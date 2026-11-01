@@ -6,7 +6,9 @@ __pycache__/
 *.pyc
 .DS_Store
 # your backups from tools/reset.py
-exercise_attempt_*.py
+*_attempt_*.py
 # unrelated editor/tool config that lives in this folder locally
 .github/
 .claude/
+# personal drill scores
+11_mental_math/history.csv
