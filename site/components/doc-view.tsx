@@ -13,7 +13,7 @@ export function SectionsView({ sections, headingLevel = 2 }: { sections: Section
       {sections.map((s, i) => (
         <section key={i} id={s.heading ? anchor(s.heading) : undefined} className="scroll-mt-24">
           {s.heading && (
-            <H className={`mb-4 font-semibold tracking-tight text-text ${H === "h2" ? "text-xl" : "text-lg"}`}>{s.heading}</H>
+            <H className={`mb-4 font-serif font-semibold tracking-[-0.01em] text-text ${H === "h2" ? "text-[1.6rem] leading-tight" : "text-xl"}`}>{s.heading}</H>
           )}
           <div className="space-y-3">
             {s.blocks.map((b, j) =>

@@ -8,7 +8,7 @@ export function ModuleProgress({ folder, taskIds }: { folder: string; taskIds: s
   return (
     <div className="flex items-center gap-3">
       <ProgressBar value={done} total={taskIds.length} className="flex-1" />
-      <span className={`font-mono text-[11px] ${done === taskIds.length && done ? "text-pass" : "text-dim"}`}>
+      <span className={`text-xs tabular-nums ${done === taskIds.length && done ? "text-pass" : "text-dim"}`}>
         {done}/{taskIds.length}
       </span>
     </div>

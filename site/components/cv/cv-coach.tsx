@@ -115,9 +115,8 @@ function Intake({ bank, onDone }: { bank: OfflineBank; onDone: (p: SavedPlan) =>
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
       <div className="grid gap-12 lg:grid-cols-[1fr_380px]">
         <div>
-          <div className="label text-accent">CV coach</div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">Every line of your CV is fair game.</h1>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+          <h1 className="font-serif text-[2.2rem] font-semibold leading-[1.15] tracking-[-0.015em] sm:text-[2.6rem]">Every line of your CV is fair game.</h1>
+          <p className="mt-5 max-w-2xl font-serif text-[19px] leading-[1.6] text-reading">
             Drop your CV and get the deep-dive questions an interviewer is likely to ask about <em>your</em> projects, what a strong answer
             contains, and the follow-up that comes next. Then type your answers and get feedback.
           </p>
@@ -157,22 +156,24 @@ function Intake({ bank, onDone }: { bank: OfflineBank; onDone: (p: SavedPlan) =>
             }`}
           >
             <input ref={input} type="file" accept="application/pdf,.pdf,.txt,.md" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
-            <div className="grid size-11 place-items-center rounded-xl border border-line bg-panel font-mono text-accent">CV</div>
-            <div className="mt-3 font-medium text-text">{reading ? "Reading your PDF…" : fileName || "Drop your CV here, or click to choose"}</div>
+            <div className="font-medium text-text">{reading ? "Reading your PDF…" : fileName || "Drop your CV here, or click to choose"}</div>
             <div className="mt-1 text-sm text-dim">PDF, read in your browser. Or paste the text below.</div>
           </div>
 
           <div className="mt-6">
             <div className="mb-2 flex items-baseline justify-between">
-              <span className="label">CV text {text ? "· check it, remove anything you don't want to share" : ""}</span>
-              <span className="font-mono text-[11px] text-dim">{text.length.toLocaleString()} chars</span>
+              <span className="label">
+                CV text
+                {text && <span className="ml-2 font-normal text-dim">Check it and remove anything you don&apos;t want to share.</span>}
+              </span>
+              <span className="text-xs tabular-nums text-dim">{text.length.toLocaleString()} characters</span>
             </div>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={10}
               placeholder="…or paste your CV here"
-              className="w-full rounded-xl border border-line bg-raised px-4 py-3 font-mono text-[13px] leading-relaxed text-text outline-none placeholder:text-dim focus:border-line-strong"
+              className="w-full rounded-xl border border-line bg-raised px-4 py-3 text-[14px] leading-relaxed text-text outline-none placeholder:text-dim focus:border-line-strong"
             />
           </div>
 
@@ -185,13 +186,13 @@ function Intake({ bank, onDone }: { bank: OfflineBank; onDone: (p: SavedPlan) =>
             className="mt-5 flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 font-semibold text-accent-ink hover:brightness-110 disabled:opacity-40"
           >
             {busy && <Spinner />}
-            {busy ? "Reading it like an interviewer… (≈ 20 s)" : "Generate my interview questions"}
+            {busy ? "Reading it like an interviewer (about 20 seconds)" : "Generate my interview questions"}
           </button>
         </div>
 
         <aside className="space-y-4 lg:pt-20">
           <div className="rounded-2xl border border-line bg-raised p-5 text-sm leading-relaxed text-muted">
-            <div className="label mb-3 text-accent">Your privacy</div>
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">Your privacy</h2>
             <ul className="space-y-2.5">
               <li>Your PDF is read <strong className="text-text">in your browser</strong>. The file is never uploaded.</li>
               <li>Emails, phone numbers and links are removed before anything is sent.</li>
@@ -203,12 +204,12 @@ function Intake({ bank, onDone }: { bank: OfflineBank; onDone: (p: SavedPlan) =>
             </ul>
           </div>
           <div className="rounded-2xl border border-line bg-raised p-5 text-sm leading-relaxed text-muted">
-            <div className="label mb-3">What you get</div>
-            <ul className="space-y-2">
-              <li>→ The 4–6 lines of your CV they&apos;ll push hardest on</li>
-              <li>→ For each: the questions, what a strong answer contains, and the follow-up</li>
-              <li>→ Feedback on answers you type, with the next pushback question</li>
-              <li>→ Behavioural stories mapped to your CV, and a draft &ldquo;why us&rdquo;</li>
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">What you get</h2>
+            <ul className="list-disc space-y-2 pl-4 marker:text-dim">
+              <li>The 4–6 lines of your CV they&apos;ll push hardest on</li>
+              <li>For each: the questions, what a strong answer contains, and the follow-up</li>
+              <li>Feedback on answers you type, with the next pushback question</li>
+              <li>Behavioural stories mapped to your CV, and a draft &ldquo;why us&rdquo;</li>
             </ul>
           </div>
         </aside>
@@ -243,13 +244,11 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-center gap-3">
-        <span className="label text-accent">CV coach · {TARGETS[target]}</span>
+        <span className="text-sm text-muted">For {TARGETS[target]}</span>
         <span
-          className={`rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
-            mode === "ai" ? "bg-pass-soft text-pass" : "bg-accent-soft text-accent"
-          }`}
+          className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${mode === "ai" ? "bg-pass-soft text-pass" : "bg-accent-soft text-accent"}`}
         >
-          {mode === "ai" ? "personalised by AI" : "offline question bank"}
+          {mode === "ai" ? "Personalised by AI" : "Offline question bank"}
         </span>
         <button
           type="button"
@@ -259,16 +258,16 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
           New CV
         </button>
       </div>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">Your deep-dive round</h1>
+      <h1 className="mt-3 font-serif text-[2.2rem] font-semibold leading-[1.15] tracking-[-0.015em]">Your deep-dive round</h1>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-6">
           <div className="rounded-2xl border border-line bg-raised p-5">
-            <div className="label mb-2">How an interviewer reads your CV</div>
-            <p className="leading-relaxed text-text">{plan.summary}</p>
-            <div className="mt-4 flex items-center gap-3 font-mono text-[11px] text-dim">
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">How an interviewer reads your CV</h2>
+            <p className="font-serif text-[17px] leading-[1.6] text-reading">{plan.summary}</p>
+            <div className="mt-4 flex items-center gap-3 text-xs tabular-nums text-dim">
               <span>
-                {done}/{total} questions practised
+                {done} of {total} questions practised
               </span>
             </div>
           </div>
@@ -284,20 +283,20 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
           ))}
 
           <section className="rounded-2xl border border-line bg-raised p-5">
-            <div className="label mb-1 text-accent">Behavioural</div>
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">Behavioural questions</h2>
             <p className="mb-4 text-sm text-muted">Prepare one 2-minute STAR story for each (Situation, Task, Action, Result). The same story can serve several questions.</p>
             <ul className="divide-y divide-line">
               {plan.behavioural.map((b, i) => (
                 <li key={i} className="py-3 first:pt-0 last:pb-0">
                   <div className="text-text">{b.q}</div>
-                  {b.storyHint && <div className="mt-1 text-sm text-muted">↳ {b.storyHint}</div>}
+                  {b.storyHint && <div className="mt-1 text-sm text-muted">{b.storyHint}</div>}
                 </li>
               ))}
             </ul>
           </section>
 
           <section className="rounded-2xl border border-line bg-raised p-5">
-            <div className="label mb-1 text-accent">Why {firm}?</div>
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">Why {firm}?</h2>
             <p className="mb-3 text-sm text-muted">
               {plan.whyTarget
                 ? "A first draft built from your CV. Fill in the [brackets] with things that are genuinely yours, then say it out loud until it sounds like you."
@@ -318,12 +317,12 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
           {plan.focus.length > 0 && (
             <div className="rounded-2xl border border-line bg-raised p-5">
-              <div className="label mb-3 text-accent">Drill these modules</div>
+              <h2 className="mb-2 font-serif text-lg font-semibold text-text">Modules to drill</h2>
               <ul className="space-y-3">
                 {plan.focus.map((f) => (
                   <li key={f.module}>
                     <Link href={`/modules/${f.module}`} className="font-medium text-text hover:text-accent">
-                      {moduleTitles[f.module] ?? f.module} →
+                      {moduleTitles[f.module] ?? f.module}
                     </Link>
                     <p className="mt-0.5 text-sm text-muted">{f.reason}</p>
                   </li>
@@ -333,7 +332,7 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
           )}
           {plan.askThem.length > 0 && (
             <div className="rounded-2xl border border-line bg-raised p-5">
-              <div className="label mb-3">Questions to ask them</div>
+              <h2 className="mb-2 font-serif text-lg font-semibold text-text">Questions to ask them</h2>
               <ul className="space-y-2.5 text-sm text-muted">
                 {plan.askThem.map((q, i) => (
                   <li key={i}>&ldquo;{q}&rdquo;</li>
@@ -342,14 +341,14 @@ function Results({ saved, moduleTitles, onReset }: { saved: SavedPlan; moduleTit
             </div>
           )}
           <div className="rounded-2xl border border-line bg-raised p-5 text-sm text-muted">
-            <div className="label mb-2">Ground rules</div>
+            <h2 className="mb-2 font-serif text-lg font-semibold text-text">Ground rules</h2>
             <ul className="space-y-1.5">
               <li>Know your own numbers exactly.</li>
               <li>Name the limitations before they do.</li>
               <li>&ldquo;We built…, and my part was…&rdquo;: never overclaim.</li>
             </ul>
             <Link href="/guide/cv" className="mt-3 inline-block text-accent hover:underline">
-              Full CV guide →
+              Read the full CV guide
             </Link>
           </div>
         </aside>
@@ -377,13 +376,12 @@ function ItemCard({
     <section className="overflow-hidden rounded-2xl border border-line bg-raised">
       <div className="border-b border-line p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="font-mono text-xs text-dim">{String(index + 1).padStart(2, "0")}</span>
-          <span className="rounded-md border border-line px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted">{item.kind}</span>
-          <span className={`rounded-md border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${RISK[item.risk]}`}>
-            {item.risk} pressure
+          <span className="rounded-md border border-line px-2 py-0.5 text-xs text-muted">{item.kind.charAt(0).toUpperCase() + item.kind.slice(1)}</span>
+          <span className={`rounded-md border px-2 py-0.5 text-xs ${RISK[item.risk]}`}>
+            {item.risk.charAt(0).toUpperCase() + item.risk.slice(1)} pressure
           </span>
         </div>
-        <blockquote className="mt-3 border-l-2 border-accent pl-3 text-[15px] leading-relaxed text-text">{item.cvLine}</blockquote>
+        <blockquote className="mt-3 border-l-2 border-accent pl-3 font-serif text-[17px] leading-relaxed text-text">{item.cvLine}</blockquote>
         {item.why && <p className="mt-2 text-sm text-muted">{item.why}</p>}
       </div>
       <div className="divide-y divide-line">
@@ -439,7 +437,7 @@ function QuestionCard({
       <div className="flex gap-3">
         <span className={`mt-2 size-2 shrink-0 rounded-full ${practised ? "bg-pass" : "border border-line-strong"}`} />
         <div className="min-w-0 flex-1">
-          <p className="text-[15px] leading-snug text-text">{q.q}</p>
+          <p className="font-serif text-[17px] leading-snug text-text">{q.q}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
@@ -466,7 +464,7 @@ function QuestionCard({
               )}
               {q.followUp && (
                 <p className="mt-2.5 text-text">
-                  <span className="label mr-2 text-accent">then</span>
+                  <span className="mr-2 font-medium text-accent">Then they ask:</span>
                   {q.followUp}
                 </p>
               )}
@@ -508,7 +506,7 @@ function FeedbackView({ f }: { f: Feedback }) {
   return (
     <div className="rounded-xl border border-line-strong bg-panel p-4 text-sm">
       <div className="flex items-center gap-3">
-        <span className={`font-mono text-xs uppercase tracking-wider ${tone}`}>{f.verdict}</span>
+        <span className={`text-sm font-semibold ${tone}`}>{f.verdict.charAt(0).toUpperCase() + f.verdict.slice(1)}</span>
         <span className="flex gap-1">
           {[1, 2, 3, 4, 5].map((n) => (
             <span key={n} className={`size-2 rounded-full ${n <= f.score ? "bg-current " + tone : "bg-line-strong"}`} />
@@ -539,7 +537,7 @@ function FeedbackView({ f }: { f: Feedback }) {
       </div>
       {f.followUp && (
         <p className="mt-3 border-t border-line pt-3 text-text">
-          <span className="label mr-2 text-accent">they push</span>
+          <span className="mr-2 font-medium text-accent">Their next question:</span>
           {f.followUp}
         </p>
       )}

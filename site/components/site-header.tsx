@@ -13,12 +13,7 @@ const NAV = [
 
 export function Logo() {
   return (
-    <span className="flex items-center gap-2.5">
-      <span className="grid size-7 place-items-center rounded-md bg-accent font-mono text-[13px] font-bold text-accent-ink">SD</span>
-      <span className="hidden font-semibold tracking-tight text-text sm:inline">
-        Superday<span className="text-dim">/</span>prep
-      </span>
-    </span>
+    <span className="whitespace-nowrap font-serif text-[19px] font-semibold tracking-[-0.01em] text-text">Superday Prep</span>
   );
 }
 

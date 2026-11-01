@@ -20,7 +20,7 @@ const deskTheme = createTheme({
     gutterForeground: "#3c4756",
     gutterActiveForeground: "#95a3b5",
     gutterBorder: "transparent",
-    fontFamily: "var(--font-jetbrains), ui-monospace, monospace",
+    fontFamily: "var(--font-plex-mono), ui-monospace, monospace",
   },
   styles: [
     { tag: [t.comment, t.lineComment, t.blockComment], color: "#5f6d7e", fontStyle: "italic" },

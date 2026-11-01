@@ -221,7 +221,9 @@ function buildModule(folder) {
 
 function buildDoc(rel, { title, slug } = {}) {
   const md = citadelOnly(read(rel));
-  return { slug, title: title ?? md.match(/^# (.+)$/m)?.[1] ?? rel, sections: sections(stripTitle(md)) };
+  // Repo titles carry asides that only make sense in a terminal ("(offline)", "(with folded answers)").
+  const heading = (md.match(/^# (.+)$/m)?.[1] ?? rel).replace(/\s*\((?:offline|one page|with folded answers)[^)]*\)\s*$/, "");
+  return { slug, title: title ?? heading, sections: sections(stripTitle(md)) };
 }
 
 fs.rmSync(KIT, { recursive: true, force: true });

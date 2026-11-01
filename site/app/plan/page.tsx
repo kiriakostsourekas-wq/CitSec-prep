@@ -20,8 +20,7 @@ export default function PlanPage() {
   return (
     <>
       <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6">
-        <div className="label text-accent">Study plan · Citadel track</div>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">Your roadmap to the superday</h1>
+        <h1 className="font-serif text-[2.2rem] font-semibold leading-[1.15] tracking-[-0.015em]">Your roadmap to the superday</h1>
         <p className="mt-3 max-w-2xl text-muted">
           Seven sessions of about three hours each, plus eight minutes of mental math every day. Short on time? Switch to the
           fast track. The evening before, go through the checklist.

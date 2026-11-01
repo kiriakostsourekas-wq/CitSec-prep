@@ -6,7 +6,7 @@ import { SiteFooter } from "./site-footer";
 type NavLink = { href: string; label: string; active?: boolean };
 
 /** Reading layout: side navigation, the document, and an on-page table of contents. */
-export function DocPage({ doc, eyebrow, nav, intro }: { doc: Doc; eyebrow: string; nav: NavLink[]; intro?: React.ReactNode }) {
+export function DocPage({ doc, nav, intro }: { doc: Doc; nav: NavLink[]; intro?: React.ReactNode }) {
   const toc = doc.sections.filter((s) => s.heading);
   return (
     <>
@@ -23,8 +23,7 @@ export function DocPage({ doc, eyebrow, nav, intro }: { doc: Doc; eyebrow: strin
           ))}
         </nav>
         <article className="min-w-0">
-          <div className="label text-accent">{eyebrow}</div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{doc.title}</h1>
+          <h1 className="font-serif text-[2.2rem] font-semibold leading-[1.15] tracking-[-0.015em]">{doc.title}</h1>
           {intro}
           <div className="mt-8">
             <SectionsView sections={doc.sections} />
@@ -33,7 +32,7 @@ export function DocPage({ doc, eyebrow, nav, intro }: { doc: Doc; eyebrow: strin
         <aside className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
           {toc.length > 1 && (
             <>
-              <div className="label mb-2">On this page</div>
+              <div className="mb-2 text-[13px] font-medium text-muted">On this page</div>
               <ul className="space-y-1.5 text-[13px]">
                 {toc.map((s) => (
                   <li key={s.heading}>

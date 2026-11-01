@@ -39,17 +39,16 @@ export function ConsolePanel({ tab, setTab, output, images, checks, fatal, onCle
             key={t}
             type="button"
             onClick={() => setTab(t)}
-            className={`rounded px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider ${tab === t ? "bg-panel-2 text-text" : "text-dim hover:text-muted"}`}
+            className={`rounded px-2.5 py-1 text-[13px] ${tab === t ? "bg-panel-2 text-text" : "text-dim hover:text-muted"}`}
           >
             {t === "checks" ? "Checks" : "Output"}
           </button>
         ))}
         {checks && tab === "checks" && (
-          <span className="ml-2 font-mono text-[11px]">
-            <span className="text-pass">{counts.PASS} pass</span>
-            <span className="text-dim"> · </span>
-            <span className="text-fail">{counts.FAIL} fail</span>
-            <span className="text-dim"> · {counts.TODO} todo</span>
+          <span className="ml-2 flex gap-3 text-[13px] tabular-nums">
+            <span className="text-pass">{counts.PASS} passed</span>
+            <span className="text-fail">{counts.FAIL} failed</span>
+            <span className="text-dim">{counts.TODO} to do</span>
           </span>
         )}
         <div className="ml-auto flex items-center gap-1">
@@ -57,13 +56,13 @@ export function ConsolePanel({ tab, setTab, output, images, checks, fatal, onCle
             type="button"
             disabled={busy}
             onClick={onRunSolution}
-            className="rounded px-2 py-1 font-mono text-[11px] text-dim hover:text-muted disabled:opacity-40"
+            className="rounded px-2 py-1 text-[13px] text-dim hover:text-muted disabled:opacity-40"
             title="Run the reference solution.py and read its analysis"
           >
-            ▶ solution.py
+            Run solution.py
           </button>
-          <button type="button" onClick={onClear} className="rounded px-2 py-1 font-mono text-[11px] text-dim hover:text-muted">
-            clear
+          <button type="button" onClick={onClear} className="rounded px-2 py-1 text-[13px] text-dim hover:text-muted">
+            Clear
           </button>
         </div>
       </div>

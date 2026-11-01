@@ -9,6 +9,7 @@
   --line: #1c2430;
   --line-strong: #2b3644;
   --text: #e6edf3;
+  --reading: #c4ccd6;
   --muted: #95a3b5;
   --dim: #5f6d7e;
   --accent: #ffb020;
@@ -42,8 +43,10 @@
   --color-fail-soft: var(--fail-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains);
+  --color-reading: var(--reading);
+  --font-sans: var(--font-plex-sans);
+  --font-serif: var(--font-source-serif);
+  --font-mono: var(--font-plex-mono);
 }
 
 html {
@@ -52,8 +55,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "cv11", "ss01";
+  font-family: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
 }
 ::selection {
   background: rgba(255, 176, 32, 0.3);
@@ -68,19 +70,28 @@ body {
   scrollbar-width: none;
 }
 
+/* A small interface label: sentence case, used only where it says something about the content below. */
 .label {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--dim);
+  font-family: var(--font-plex-sans), ui-sans-serif, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Headings and reading text: a text serif, set like a problem sheet rather than a dashboard. */
+.serif {
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-optical-sizing: auto;
 }
 
 /* ------------------------------------------------------------------ markdown from the kit */
 .md {
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.7;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-optical-sizing: auto;
+  font-variant-numeric: oldstyle-nums;
+  color: var(--reading);
+  font-size: 17px;
+  line-height: 1.65;
 }
 .md > * + * {
   margin-top: 0.85em;
@@ -90,11 +101,11 @@ body {
 .md h4 {
   color: var(--text);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   margin-top: 1.6em;
 }
 .md h3 {
-  font-size: 1.05rem;
+  font-size: 1.15rem;
 }
 .md h4 {
   font-size: 0.95rem;
@@ -132,8 +143,8 @@ body {
   color: var(--dim);
 }
 .md :not(pre) > code {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-size: 0.86em;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.82em;
   background: var(--panel-2);
   border: 1px solid var(--line);
   color: #f3d9a4;
@@ -145,7 +156,7 @@ body {
   color: var(--accent);
 }
 .md pre {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
   font-size: 13px;
   line-height: 1.6;
   background: var(--raised);
@@ -169,7 +180,9 @@ body {
   display: block;
   overflow-x: auto;
   border-collapse: collapse;
-  font-size: 13.5px;
+  font-family: var(--font-plex-sans), ui-sans-serif, sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: 14px;
   max-width: 100%;
 }
 .md th {

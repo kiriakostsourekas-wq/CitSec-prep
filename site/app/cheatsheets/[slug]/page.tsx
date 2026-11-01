@@ -27,5 +27,5 @@ async function Cheatsheet({ params }: { params: PageProps<"/cheatsheets/[slug]">
   const doc = content.cheatsheets.find((c) => c.slug === slug);
   if (!doc) notFound();
   const nav = content.cheatsheets.map((c) => ({ href: `/cheatsheets/${c.slug}`, label: c.title.replace(/\s*\(.*\)$/, ""), active: c.slug === slug }));
-  return <DocPage doc={doc} eyebrow="Cheatsheet" nav={nav} />;
+  return <DocPage doc={doc} nav={nav} />;
 }
