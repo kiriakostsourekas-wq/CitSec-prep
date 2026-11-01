@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { markVisited } from "@/lib/progress";
 import { fmt, isCorrect, nextQuestion, type Question, type Topic, TOPICS } from "@/lib/drill";
 
 const HISTORY_KEY = "citprep:v1:drill-history";
@@ -52,6 +53,7 @@ function Drill() {
       answered: list.length,
       seconds,
     };
+    if (list.length >= 10) markVisited("mental-math");
     const next = [run, ...readHistory()].slice(0, 50);
     setHistory(next);
     try {

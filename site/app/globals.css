@@ -219,3 +219,37 @@ body {
 .hljs-meta {
   color: #bb9af7;
 }
+
+/* ------------------------------------------------------------------ plan map */
+@keyframes map-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.map-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: map-pulse 1.8s ease-out infinite;
+}
+@keyframes map-pulse-css {
+  from {
+    box-shadow: 0 0 0 0 rgba(255, 176, 32, 0.55);
+  }
+  to {
+    box-shadow: 0 0 0 10px rgba(255, 176, 32, 0);
+  }
+}
+.map-pulse-css {
+  animation: map-pulse-css 1.8s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-pulse,
+  .map-pulse-css {
+    animation: none;
+  }
+}

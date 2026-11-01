@@ -11,12 +11,13 @@ export type Progress = {
   solutions: Record<string, true>; // solutions revealed per task
   followUps: Record<string, Rating>; // "04_linear_regression:3"
   checklist: Record<string, boolean>;
+  visited: Record<string, true>; // non-coding stops on the map: "guide", "guide/cv", "mental-math", …
   fastTrack: boolean;
 };
 
 const KEY = "citprep:v1:progress";
 const CODE_KEY = (folder: string) => `citprep:v1:code:${folder}`;
-const EMPTY: Progress = { tasks: {}, hints: {}, solutions: {}, followUps: {}, checklist: {}, fastTrack: false };
+const EMPTY: Progress = { tasks: {}, hints: {}, solutions: {}, followUps: {}, checklist: {}, visited: {}, fastTrack: false };
 
 const listeners = new Set<() => void>();
 let cache: Progress | null = null;
@@ -58,6 +59,12 @@ function subscribe(fn: () => void) {
 
 export function useProgress(): Progress {
   return useSyncExternalStore(subscribe, load, () => EMPTY);
+}
+
+/** Mark a non-coding stop of the plan as done (reading a guide page, finishing a drill run). */
+export function markVisited(key: string) {
+  if (load().visited[key]) return;
+  updateProgress((p) => ({ ...p, visited: { ...p.visited, [key]: true } }));
 }
 
 export const taskKey = (folder: string, id: string) => `${folder}:${id}`;
