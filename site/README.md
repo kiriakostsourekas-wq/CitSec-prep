@@ -21,3 +21,16 @@ npm run dev        # regenerates content first, then http://localhost:3000
 ## Deploy on Vercel
 - Import the GitHub repo and set **Root Directory** to `site`.
 - Keep "Include files outside the root directory in the Build Step" enabled. The content step reads `../`.
+
+## CV coach (`/cv`, `app/api/cv/route.ts`)
+The PDF is read in the browser with pdf.js, and contact details are removed before anything is sent. The text goes once to an
+OpenAI-compatible chat API. Nothing is stored server-side. If the AI isn't configured, is over quota or is down, the page
+falls back to matching the CV against the question bank in `00_interview_guide/cv_and_behavioral.md`.
+
+| Variable | Required | Default |
+|---|---|---|
+| `GROQ_API_KEY` (or `LLM_API_KEY`) | yes, for AI mode | — |
+| `LLM_MODEL` | no | `openai/gpt-oss-120b` |
+| `LLM_BASE_URL` | no (set it to switch provider, e.g. `https://api.x.ai/v1`) | `https://api.groq.com/openai/v1` |
+
+For local testing, put the variables in `site/.env.local`. That file is gitignored.
