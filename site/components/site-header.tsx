@@ -30,7 +30,7 @@ export function SiteHeader() {
         <Link href="/" aria-label="Home">
           <Logo />
         </Link>
-        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto text-sm">
+        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto text-sm no-scrollbar">
           {NAV.map((n) => {
             const active = path === n.href || path.startsWith(n.href + "/");
             return (

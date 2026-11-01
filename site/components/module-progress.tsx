@@ -14,3 +14,15 @@ export function ModuleProgress({ folder, taskIds }: { folder: string; taskIds: s
     </div>
   );
 }
+
+/** Compact "3/11" for list rows; shows the fallback (e.g. the time estimate) until something passes. */
+export function ModuleCount({ folder, taskIds, fallback }: { folder: string; taskIds: string[]; fallback: string }) {
+  const p = useProgress();
+  const done = taskIds.filter((id) => p.tasks[taskKey(folder, id)] === "PASS").length;
+  if (!done) return <span className="shrink-0 font-mono text-xs text-dim">{fallback}</span>;
+  return (
+    <span className={`shrink-0 font-mono text-xs ${done === taskIds.length ? "text-pass" : "text-muted"}`}>
+      {done}/{taskIds.length} tasks
+    </span>
+  );
+}

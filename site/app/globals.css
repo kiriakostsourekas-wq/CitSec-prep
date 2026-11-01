@@ -64,12 +64,8 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
 }
-
-.grid-bg {
-  background-image: linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 0%, black 20%, transparent 70%);
+.no-scrollbar {
+  scrollbar-width: none;
 }
 
 .label {
