@@ -29,12 +29,11 @@ function Item({ it }: { it: RoadmapItem }) {
       {total > 0 && (
         <span className="flex w-28 shrink-0 items-center gap-2">
           <ProgressBar value={n} total={total} className="flex-1" />
-          <span className="font-mono text-[10px] text-dim">
+          <span className="text-xs tabular-nums text-dim">
             {n}/{total}
           </span>
         </span>
       )}
-      <span className="text-dim group-hover:text-accent">→</span>
     </Link>
   );
 }
@@ -58,8 +57,8 @@ export function Roadmap({
       <div>
         <div className="mb-6 inline-flex rounded-lg border border-line bg-raised p-1 text-sm">
           {[
-            [false, `Full plan · ≈ ${sessions.reduce((h, s) => h + s.hours, 0)} h`],
-            [true, "Fast track · ≈ 7 h"],
+            [false, `Full plan, about ${sessions.reduce((h, s) => h + s.hours, 0)} h`],
+            [true, "Fast track, about 7 h"],
           ].map(([v, label]) => (
             <button
               key={String(v)}
@@ -82,13 +81,13 @@ export function Roadmap({
           <ol className="relative space-y-5 border-l border-line pl-6">
             {sessions.map((s) => (
               <li key={s.n} className="relative">
-                <span className="absolute -left-[33px] top-3 grid size-4 place-items-center rounded-full border border-line-strong bg-bg font-mono text-[9px] text-muted">
+                <span className="absolute -left-[33px] top-3 grid size-4 place-items-center rounded-full border border-line-strong bg-bg text-[10px] tabular-nums text-muted">
                   {s.n}
                 </span>
                 <div className="rounded-2xl border border-line bg-raised p-2">
                   <div className="flex items-baseline justify-between px-3 pb-1 pt-2">
                     <span className="label">Session {s.n}</span>
-                    <span className="font-mono text-[11px] text-dim">{s.hours} h</span>
+                    <span className="text-xs tabular-nums text-dim">{s.hours} h</span>
                   </div>
                   {s.items.map((it, i) => (
                     <Item key={i} it={it} />

@@ -34,8 +34,8 @@ export function TaskList({ module, results, busy, onCheck, onJump, onJumpLine }:
             <div className="mb-2 flex items-baseline gap-3">
               <span className="label shrink-0 whitespace-nowrap">{g.part.length === 1 ? `Part ${g.part}` : g.part.replace("S", "Stage ")}</span>
               <span className="truncate text-sm text-muted">{module.parts[g.part]}</span>
-              <span className="ml-auto font-mono text-[11px] text-dim">
-                {passed}/{g.tasks.length}
+              <span className="ml-auto text-xs tabular-nums text-dim">
+                {passed} of {g.tasks.length}
               </span>
             </div>
             <div className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-raised">
@@ -101,7 +101,7 @@ function TaskRow({
         <span className="w-7 shrink-0 font-mono text-xs text-dim">{task.id}</span>
         <span className="min-w-0 truncate font-mono text-[13px] text-text">{task.func}</span>
         <span className="hidden min-w-0 truncate text-[13px] text-dim sm:inline">{task.title}</span>
-        <span className={`ml-auto shrink-0 font-mono text-[10px] uppercase ${STATUS_STYLE[status ?? "NONE"].text}`}>
+        <span className={`ml-auto shrink-0 text-xs ${STATUS_STYLE[status ?? "NONE"].text}`}>
           {status ? STATUS_STYLE[status].label : ""}
         </span>
       </button>
@@ -116,11 +116,11 @@ function TaskRow({
 
           {failing && (
             <div className="rounded-lg border border-fail/30 bg-fail-soft px-3 py-2.5">
-              <div className="mb-1 font-mono text-[11px] uppercase text-fail">{result.status}</div>
+              <div className="mb-1 text-[13px] font-medium text-fail">{STATUS_STYLE[result.status].label}</div>
               <pre className="whitespace-pre-wrap font-mono text-[12.5px] text-text">{result.message}</pre>
               {result.line ? (
                 <button type="button" onClick={() => onJumpLine(result.line!)} className="mt-2 text-xs text-accent hover:underline">
-                  Go to line {result.line} →
+                  Go to line {result.line}
                 </button>
               ) : null}
             </div>
@@ -147,11 +147,16 @@ function TaskRow({
 
           {(task.hints.length > 0 || task.hintNote) && (
             <div className="space-y-2">
-              <div className="label">Hints · {hintsShown}/{task.hints.length} opened</div>
+              <div className="flex items-baseline gap-2">
+                <span className="label">Hints</span>
+                <span className="text-xs tabular-nums text-dim">
+                  {hintsShown} of {task.hints.length} opened
+                </span>
+              </div>
               {task.hintNote && <Markdown md={task.hintNote} className="text-[13.5px]" />}
               {task.hints.slice(0, hintsShown).map((h, i) => (
                 <div key={i} className="rounded-lg border border-line bg-bg px-3 py-2">
-                  <div className="mb-1 font-mono text-[10px] uppercase text-accent">Hint {i + 1}</div>
+                  <div className="mb-1 text-xs font-medium text-accent">Hint {i + 1}</div>
                   <Markdown md={h} className="text-[13.5px]" />
                 </div>
               ))}

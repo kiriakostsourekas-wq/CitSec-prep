@@ -10,7 +10,7 @@ export default function CvPage() {
   return (
     <>
       <MarkVisited id="guide/cv" />
-      <DocPage doc={content.guide.cv} eyebrow="Interview guide · every line of your CV is fair game" nav={guideNav("/guide/cv")} />
+      <DocPage doc={content.guide.cv} nav={guideNav("/guide/cv")} />
     </>
   );
 }

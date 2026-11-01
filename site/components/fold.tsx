@@ -13,7 +13,7 @@ export function Fold({ summary, children, tone = "default" }: { summary: ReactNo
         className="flex w-full items-start gap-3 px-4 py-3 text-left"
       >
         <span
-          className={`mt-1 grid size-4 shrink-0 place-items-center rounded-[4px] border font-mono text-[10px] transition-transform ${
+          className={`mt-1 grid size-4 shrink-0 place-items-center rounded-[4px] border text-[11px] leading-none transition-transform ${
             open ? "rotate-90 border-accent text-accent" : "border-line-strong text-dim"
           }`}
           aria-hidden

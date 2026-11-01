@@ -10,7 +10,7 @@ export default function MlStatsPage() {
   return (
     <>
       <MarkVisited id="guide/ml-stats" />
-      <DocPage doc={content.guide.mlStats} eyebrow="Interview guide · answer out loud, then open" nav={guideNav("/guide/ml-stats")} />
+      <DocPage doc={content.guide.mlStats} nav={guideNav("/guide/ml-stats")} />
     </>
   );
 }

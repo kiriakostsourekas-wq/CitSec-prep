@@ -39,17 +39,17 @@ export function FollowUps({ folder, sections }: { folder: string; sections: Sect
           interviewer were listening, then reveal the answer and rate yourself honestly. Re-do the ones you rated shaky or missed
           the day before.
         </p>
-        <div className="mt-3 flex flex-wrap gap-4 font-mono text-[11px]">
-          <span className="text-pass">● {count("nailed")} nailed</span>
-          <span className="text-accent">● {count("shaky")} shaky</span>
-          <span className="text-fail">● {count("missed")} missed</span>
-          <span className="text-dim">○ {cards.length - rated.filter(Boolean).length} to do</span>
+        <div className="mt-3 flex flex-wrap gap-4 text-[13px] tabular-nums">
+          <span className="text-pass">{count("nailed")} nailed</span>
+          <span className="text-accent">{count("shaky")} shaky</span>
+          <span className="text-fail">{count("missed")} missed</span>
+          <span className="text-dim">{cards.length - rated.filter(Boolean).length} to do</span>
         </div>
       </div>
       <div className="space-y-3">
         {items.map((it, i) =>
           it.kind === "heading" ? (
-            <h2 key={i} className="pt-4 text-lg font-semibold tracking-tight text-text">
+            <h2 key={i} className="pt-4 font-serif text-xl font-semibold tracking-[-0.01em] text-text">
               {it.text}
             </h2>
           ) : it.kind === "md" ? (
@@ -71,14 +71,14 @@ function Card({ index, card, rating }: { index: number; card: { summary: string;
   return (
     <div className={`rounded-xl border bg-raised ${open ? "border-line-strong" : "border-line"}`}>
       <div className="flex gap-3 p-4">
-        <span className="mt-0.5 font-mono text-xs text-dim">{String(index + 1).padStart(2, "0")}</span>
+        <span className="mt-[3px] w-5 shrink-0 text-right font-serif text-[15px] tabular-nums text-dim">{index + 1}</span>
         <div className="min-w-0 flex-1">
-          <div className="text-[15px] leading-snug text-text">
+          <div className="font-serif text-[17px] leading-snug text-text">
             <InlineMarkdown md={question} />
           </div>
           {!open ? (
             <button type="button" onClick={() => setOpen(true)} className="mt-3 text-[13px] text-accent hover:underline">
-              I&apos;ve said my answer: reveal →
+              Show the answer
             </button>
           ) : (
             <div className="mt-3 space-y-3 border-t border-line pt-3">

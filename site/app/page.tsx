@@ -33,9 +33,9 @@ export default function Home() {
   return (
     <>
       <main className="mx-auto w-full max-w-2xl px-6 pt-16 sm:pt-24">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Citadel quant final round prep</h1>
+        <h1 className="font-serif text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.015em] sm:text-[2.75rem]">Citadel quant final round prep</h1>
 
-        <div className="mt-8 space-y-5 text-[17px] leading-relaxed text-muted">
+        <div className="mt-7 space-y-5 font-serif text-[19px] leading-[1.6] text-reading">
           <p>
             I put this together while preparing for the final round of the Citadel Securities quant research internship. It&apos;s
             the material from my GitHub repo, made easier to use: the exercises run here in the browser, and hints and answers stay
@@ -54,7 +54,7 @@ export default function Home() {
             Start with session 1
           </Link>
           <Link href="/plan" className="text-sm text-muted hover:text-text">
-            Short on time? The fast track →
+            Short on time? Use the fast track
           </Link>
         </div>
 
@@ -62,16 +62,14 @@ export default function Home() {
 
       <section className="mx-auto w-full max-w-5xl px-6 pb-8 pt-14">
         <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="shrink-0 font-medium text-text">The plan</h2>
-          <span className="font-mono text-xs text-dim">
-            ≈ {totalHours} h over {content.plan.sessions.length} sessions
-            <span className="hidden sm:inline"> · one line per interview round</span>
+          <h2 className="shrink-0 font-serif text-2xl font-semibold tracking-[-0.01em] text-text">The plan</h2>
+          <span className="text-sm tabular-nums text-dim">
+            About {totalHours} hours over {content.plan.sessions.length} sessions
           </span>
         </div>
         <PlanMap stops={stops} sessions={content.plan.sessions.map((s) => ({ n: s.n, hours: s.hours }))} />
         <p className="mt-4 text-sm leading-relaxed text-dim">
-          Each module has short notes, coding tasks checked by tests, and the follow-up questions an interviewer asks once your code works.
-          Stops light up as you finish them. Your progress stays in this browser.
+          Each line is one interview round. A station lights up when you finish it, and your progress stays in this browser.
         </p>
       </section>
       <SiteFooter />

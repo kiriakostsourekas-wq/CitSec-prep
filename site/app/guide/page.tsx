@@ -10,7 +10,7 @@ export default function GuidePage() {
   return (
     <>
       <MarkVisited id="guide" />
-      <DocPage doc={content.guide.main} eyebrow="Interview guide · read first" nav={guideNav("/guide")} />
+      <DocPage doc={content.guide.main} nav={guideNav("/guide")} />
     </>
   );
 }

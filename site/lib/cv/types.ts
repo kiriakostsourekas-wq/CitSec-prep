@@ -1,8 +1,8 @@
 // Shapes shared by the CV coach page and /api/cv.
 
 export const TARGETS = {
-  citadel: "Citadel (hedge fund) · quantitative research",
-  securities: "Citadel Securities (market maker) · quantitative research / trading",
+  citadel: "Citadel (hedge fund), quantitative research",
+  securities: "Citadel Securities (market maker), quantitative research and trading",
 } as const;
 export type Target = keyof typeof TARGETS;
 

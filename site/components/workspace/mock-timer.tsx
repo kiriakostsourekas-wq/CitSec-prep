@@ -21,7 +21,7 @@ export function MockTimer() {
   return (
     <div className="mt-3 flex items-center gap-3 rounded-lg border border-line bg-raised px-3 py-2">
       <span className="label">Mock clock</span>
-      <span className={`font-mono text-lg tabular-nums ${tone}`}>
+      <span className={`text-lg font-medium tabular-nums ${tone}`}>
         {mm}:{ss}
       </span>
       <div className="ml-auto flex gap-1.5">

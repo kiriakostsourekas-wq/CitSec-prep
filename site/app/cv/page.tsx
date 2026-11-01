@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function CvPage() {
   const bank = buildOfflineBank(content.guide.cv.sections);
-  const moduleTitles = Object.fromEntries(modules.map((m) => [m.slug, `${m.number} · ${m.title}`]));
+  const moduleTitles = Object.fromEntries(modules.map((m) => [m.slug, m.title]));
   return (
     <>
       <CvCoach bank={bank} moduleTitles={moduleTitles} />

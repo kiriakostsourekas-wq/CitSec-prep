@@ -13,7 +13,7 @@ export default function MentalMathPage() {
   return (
     <>
       <main className="mx-auto w-full max-w-3xl px-6 py-14">
-        <h1 className="text-3xl font-semibold tracking-tight">Mental math</h1>
+        <h1 className="font-serif text-[2.2rem] font-semibold leading-[1.15] tracking-[-0.015em]">Mental math</h1>
         <p className="mt-4 max-w-2xl leading-relaxed text-muted">
           Eight minutes a day until the interview. Some trading firms screen with a timed arithmetic test (about 60–80 questions in 8
           minutes), and in probability rounds fast arithmetic is what lets you keep talking while you think. Go for accuracy first, then

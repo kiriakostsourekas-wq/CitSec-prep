@@ -107,9 +107,9 @@ function Drill() {
   if (phase === "running" && q) {
     return (
       <div className="rounded-2xl border border-line bg-raised p-6 sm:p-10">
-        <div className="flex items-center justify-between font-mono text-sm">
+        <div className="flex items-center justify-between text-sm tabular-nums">
           <span className="text-dim">
-            Q{answered.length + 1} <span className="text-line-strong">/ {MAX_QUESTIONS}</span>
+            Question {answered.length + 1} of {MAX_QUESTIONS}
           </span>
           <span className={left <= 30 ? "text-fail" : "text-muted"}>
             {Math.floor(left / 60)}:{String(left % 60).padStart(2, "0")}
@@ -122,7 +122,7 @@ function Drill() {
           }}
           className="mt-10 flex flex-col items-center gap-6"
         >
-          <div className="text-center font-mono text-3xl text-text sm:text-4xl">{q.text}</div>
+          <div className="text-center font-serif text-4xl font-medium lining-nums tabular-nums text-text sm:text-5xl">{q.text}</div>
           <input
             ref={field}
             value={input}
@@ -130,9 +130,9 @@ function Drill() {
             inputMode="decimal"
             autoComplete="off"
             aria-label="Your answer"
-            className="w-48 border-b-2 border-line-strong bg-transparent pb-1 text-center font-mono text-2xl text-text outline-none focus:border-accent"
+            className="w-48 border-b-2 border-line-strong bg-transparent pb-1 text-center text-2xl font-medium tabular-nums text-text outline-none focus:border-accent"
           />
-          <div className={`h-5 font-mono text-sm ${flash?.ok ? "text-pass" : "text-fail"}`}>{flash?.text}</div>
+          <div className={`h-5 text-sm tabular-nums ${flash?.ok ? "text-pass" : "text-fail"}`}>{flash?.text}</div>
         </form>
         <div className="mt-6 flex justify-center gap-4 text-xs text-dim">
           <span>Enter to answer (empty skips)</span>
@@ -155,19 +155,19 @@ function Drill() {
     return (
       <div className="rounded-2xl border border-line bg-raised p-6 sm:p-8">
         <div className="flex flex-wrap items-baseline gap-x-8 gap-y-2">
-          <div className="font-mono text-4xl text-text">
+          <div className="font-serif text-5xl font-semibold lining-nums tabular-nums text-text">
             {right}
             <span className="text-dim">/{answered.length}</span>
           </div>
           <div className="text-sm text-muted">
-            {answered.length ? Math.round((100 * right) / answered.length) : 0}% accuracy · {((answered.length / secs) * 60).toFixed(1)} questions/min
+            {answered.length ? Math.round((100 * right) / answered.length) : 0}% accuracy, {((answered.length / secs) * 60).toFixed(1)} questions a minute
           </div>
         </div>
         {byTopic.length > 0 && (
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-muted">
+          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1 text-[13px] tabular-nums text-muted">
             {byTopic.map((t) => (
               <span key={t.id}>
-                {t.label.toLowerCase()} <span className={t.right === t.n ? "text-pass" : "text-text"}>{t.right}/{t.n}</span>
+                {t.label} <span className={t.right === t.n ? "text-pass" : "text-text"}>{t.right}/{t.n}</span>
               </span>
             ))}
           </div>
@@ -175,7 +175,7 @@ function Drill() {
         {misses.length > 0 && (
           <div className="mt-6 border-t border-line pt-4">
             <div className="mb-2 text-sm text-text">Missed</div>
-            <ul className="space-y-1 font-mono text-[13px] text-muted">
+            <ul className="space-y-1 text-sm tabular-nums text-muted">
               {misses.slice(0, 15).map((m, i) => (
                 <li key={i}>
                   {m.text} = <span className="text-text">{fmt(m.answer)}</span> <span className="text-dim">(you: {m.given || "skip"})</span>
@@ -208,7 +208,7 @@ function Drill() {
               onClick={() => setMinutes(m)}
               className={`rounded-md border px-3 py-1.5 text-sm ${minutes === m ? "border-accent text-text" : "border-line text-muted hover:text-text"}`}
             >
-              {m} min{m === 8 ? " · the real test" : ""}
+              {m} min{m === 8 ? " (the real test)" : ""}
             </button>
           ))}
         </div>
@@ -233,12 +233,12 @@ function Drill() {
       <div>
         <div className="text-sm text-text">Your last runs</div>
         {history.length ? (
-          <ul className="mt-2 space-y-1.5 font-mono text-xs text-muted">
+          <ul className="mt-2 space-y-1.5 text-[13px] tabular-nums text-muted">
             {history.slice(0, 8).map((r, i) => (
               <li key={i} className="flex justify-between gap-3">
                 <span className="text-dim">{new Date(r.when).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
                 <span>
-                  {r.right}/{r.answered} · {r.minutes}m
+                  {r.right}/{r.answered} in {r.minutes} min
                 </span>
               </li>
             ))}

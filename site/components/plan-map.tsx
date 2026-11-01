@@ -79,8 +79,13 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
                   rx={10}
                   fill={current ? "rgba(255,176,32,0.045)" : i % 2 ? "rgba(255,255,255,0.014)" : "transparent"}
                 />
-                <text x={x0 + MAP.colWidth / 2} y={20} textAnchor="middle" className="font-mono" fontSize={11} fill={current ? "#ffb020" : "#5f6d7e"}>
-                  {`S${s.n} · ${s.hours} h`}
+                <text x={x0 + MAP.colWidth / 2} y={20} textAnchor="middle" fontSize={12} className="tabular-nums">
+                  <tspan fontWeight={500} fill={current ? "#ffb020" : "#95a3b5"}>
+                    Session {s.n}
+                  </tspan>
+                  <tspan dx={6} fill="#5f6d7e">
+                    {s.hours} h
+                  </tspan>
                 </text>
               </g>
             );
@@ -95,7 +100,7 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
             });
             return (
               <g key={l.id}>
-                <text x={first.x - 22} y={l.y + 4} textAnchor="end" className="font-mono" fontSize={11} fill={l.color} opacity={0.75}>
+                <text x={first.x - 22} y={l.y + 4} textAnchor="end" fontSize={12} fontWeight={500} fill={l.color}>
                   {l.label}
                 </text>
                 <path d={`M ${first.x} ${l.y} ` + tail(l.stops.at(-1)!.x, l.y).slice(1)} fill="none" stroke={l.color} strokeOpacity={0.16} strokeWidth={6} strokeLinecap="round" />
@@ -133,11 +138,11 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
           <g>
             <circle cx={TERMINAL.x} cy={TERMINAL.y} r={17} fill={BG} stroke="#e6edf3" strokeWidth={3} />
             <circle cx={TERMINAL.x} cy={TERMINAL.y} r={7} fill={doneCount === stops.length ? "#ffb020" : "#e6edf3"} />
-            <text x={TERMINAL.x} y={TERMINAL.y + 40} textAnchor="middle" fontSize={14} fontWeight={600} fill="#e6edf3">
+            <text x={TERMINAL.x} y={TERMINAL.y + 42} textAnchor="middle" fontSize={17} fontWeight={600} fill="#e6edf3" className="serif">
               Superday
             </text>
-            <text x={TERMINAL.x} y={TERMINAL.y + 57} textAnchor="middle" className="font-mono" fontSize={11} fill="#5f6d7e">
-              {doneCount}/{stops.length} stops
+            <text x={TERMINAL.x} y={TERMINAL.y + 59} textAnchor="middle" fontSize={12} fill="#5f6d7e" className="tabular-nums">
+              {doneCount} of {stops.length} stops
             </text>
           </g>
 
@@ -214,7 +219,7 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
           const own = stops.filter((s) => s.session === sec.n).sort((a, b) => a.x - b.x);
           return (
             <li key={sec.n}>
-              <div className={`flex items-baseline justify-between pb-2 pt-5 font-mono text-xs ${next?.session === sec.n ? "text-accent" : "text-dim"}`}>
+              <div className={`flex items-baseline justify-between pb-2 pt-5 text-[13px] font-medium tabular-nums ${next?.session === sec.n ? "text-accent" : "text-muted"}`}>
                 <span>{sec.title}</span>
                 <span>{sec.hours}</span>
               </div>
@@ -235,9 +240,7 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
                       <Link href={s.href} className="block py-2.5">
                         <span className={`block ${st.complete || isNext ? "text-text" : "text-muted"} ${isNext ? "font-medium" : ""}`}>{s.title}</span>
                         <span className="block text-xs text-dim">
-                          {LANES[s.lane].label}
-                          {s.note ? ` · ${s.note}` : ""}
-                          {s.folder ? ` · ${st.done}/${st.total} tasks` : ""}
+                          {[LANES[s.lane].label, s.note, s.folder ? `${st.done} of ${st.total} tasks` : ""].filter(Boolean).join(", ")}
                         </span>
                       </Link>
                     </li>
@@ -256,9 +259,9 @@ export function PlanMap({ stops, sessions }: { stops: MapStop[]; sessions: { n: 
             <span className="size-2.5 shrink-0 rounded-full" style={{ background: LANES[next.lane].color }} />
             <div className="min-w-0 flex-1">
               <div className="text-xs text-dim">
-                Next stop · {next.session ? `session ${next.session}` : "every day"} · {LANES[next.lane].label}
+                Next stop, {next.session ? `session ${next.session}` : "every day"}
               </div>
-              <div className="mt-0.5 text-text">
+              <div className="mt-0.5 font-serif text-lg font-semibold text-text">
                 {next.title}
                 {next.note && <span className="text-sm text-dim"> {next.note}</span>}
               </div>
@@ -285,20 +288,20 @@ function StopCard({ stop, status, isNext }: { stop: MapStop; status: Status; isN
     >
       <div className="flex items-center gap-2 text-xs" style={{ color }}>
         <span className="size-2 rounded-full" style={{ background: color }} />
-        {label} · {stop.session ? `session ${stop.session}` : "every day"}
-        {isNext && <span className="ml-auto text-accent">next stop</span>}
+        {label}, {stop.session ? `session ${stop.session}` : "every day"}
+        {isNext && <span className="ml-auto text-accent">Next stop</span>}
       </div>
-      <div className="mt-2 font-medium text-text">{stop.title}</div>
+      <div className="mt-2 font-serif text-[17px] font-semibold text-text">{stop.title}</div>
       {stop.note && <div className="mt-0.5 text-sm text-muted">{stop.note}</div>}
       <div className="mt-3 flex items-center gap-3">
         <div className="h-1 flex-1 overflow-hidden rounded-full bg-line">
           <div className="h-full rounded-full" style={{ width: `${(status.done / status.total) * 100}%`, background: color }} />
         </div>
-        <span className="font-mono text-[11px] text-dim">
-          {stop.folder ? `${status.done}/${status.total} tasks` : status.complete ? "done" : "not opened"}
+        <span className="text-xs tabular-nums text-dim">
+          {stop.folder ? `${status.done} of ${status.total} tasks` : status.complete ? "Done" : "Not opened yet"}
         </span>
       </div>
-      {stop.time && <div className="mt-2 font-mono text-[11px] text-dim">{stop.time}</div>}
+      {stop.time && <div className="mt-2 text-xs text-dim">About {stop.time}</div>}
     </div>
   );
 }

@@ -137,14 +137,14 @@ export function Workspace({ module: m }: { module: Module }) {
               Modules
             </Link>
             <span>/</span>
-            <span className="font-mono">{m.number}</span>
-            {m.time && <span className="ml-auto font-mono">{m.time}</span>}
+            <span className="tabular-nums">{m.number}</span>
+            {m.time && <span className="ml-auto">{m.time}</span>}
           </div>
-          <h1 className="mt-1.5 text-xl font-semibold tracking-tight">{m.title}</h1>
+          <h1 className="mt-1.5 font-serif text-[1.65rem] font-semibold leading-tight tracking-[-0.01em]">{m.title}</h1>
           <div className="mt-3 flex items-center gap-3">
             <ProgressBar value={passed} total={m.tasks.length} className="flex-1" />
-            <span className="font-mono text-[11px] text-dim">
-              {passed}/{m.tasks.length} tasks
+            <span className="text-xs tabular-nums text-dim">
+              {passed} of {m.tasks.length} tasks
             </span>
           </div>
           {m.folder === "10_mock_interview" && <MockTimer />}
@@ -159,7 +159,7 @@ export function Workspace({ module: m }: { module: Module }) {
                 }`}
               >
                 {t.label}
-                {t.badge && <span className="ml-1.5 font-mono text-[11px] text-dim">{t.badge}</span>}
+                {t.badge && <span className="ml-1.5 text-xs tabular-nums text-dim">{t.badge}</span>}
               </button>
             ))}
           </div>
@@ -172,7 +172,7 @@ export function Workspace({ module: m }: { module: Module }) {
               <p className="mt-1 text-muted">
                 Now the part that matters most: answer the interviewer follow-ups out loud.{" "}
                 <button type="button" onClick={() => setTab("followups")} className="text-accent hover:underline">
-                  Open follow-ups →
+                  Open the follow-ups
                 </button>
               </p>
             </div>
@@ -180,8 +180,8 @@ export function Workspace({ module: m }: { module: Module }) {
           {tab === "learn" && (
             <>
               <div className="mb-6 rounded-xl border border-line bg-raised px-4 py-3 text-[13px] text-muted">
-                In the browser, <span className="font-mono text-text">Run</span> is <span className="font-mono">python exercise.py</span> and{" "}
-                <span className="font-mono text-text">Check</span> is <span className="font-mono">python check.py</span>. Your code is saved in this
+                In the browser, <span className="font-medium text-text">Run</span> is <span className="font-mono">python exercise.py</span> and{" "}
+                <span className="font-medium text-text">Check</span> is <span className="font-mono">python check.py</span>. Your code is saved in this
                 browser as you type.
               </div>
               <SectionsView sections={m.notes} />
