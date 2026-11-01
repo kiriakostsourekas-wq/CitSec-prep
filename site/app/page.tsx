@@ -1,23 +1,26 @@
 import Link from "next/link";
-import { type PlanEntry, PlanList, type PlanRow } from "@/components/plan-list";
+import { type MapStop, PlanMap } from "@/components/plan-map";
 import { SiteFooter } from "@/components/site-footer";
 import { content, moduleByFolder, planHref, planLabel } from "@/lib/content";
+import { STOPS } from "@/lib/plan-map";
 
-const entry = ([key, note]: [string] | [string, string]): PlanEntry => {
-  const m = moduleByFolder(key);
+// Notes for each stop, gathered from every place it appears in the plan ("part A (numpy)", "parts B–D (pandas)").
+const notes = new Map<string, string[]>();
+for (const item of [...content.plan.sessions.flatMap((s) => s.items), ...content.plan.daily])
+  if (item[1]) notes.set(item[0], [...(notes.get(item[0]) ?? []), item[1]]);
+
+const stops: MapStop[] = STOPS.map((s) => {
+  const m = moduleByFolder(s.key);
   return {
-    href: planHref(key),
-    label: m ? m.short : planLabel(key),
-    note: note ?? "",
+    ...s,
+    title: m ? m.title : planLabel(s.key),
+    href: planHref(s.key),
+    time: m?.time ?? "",
+    note: (notes.get(s.key) ?? []).join(", then "),
     folder: m?.folder,
     taskIds: m?.tasks.map((t) => t.id),
   };
-};
-
-const rows: PlanRow[] = [
-  ...content.plan.sessions.map((s) => ({ key: `s${s.n}`, when: String(s.n), hours: `${s.hours} h`, entries: s.items.map(entry) })),
-  ...content.plan.daily.map((d, i) => ({ key: `d${i}`, when: "daily", hours: "8 min", entries: [entry(d)] })),
-];
+});
 const totalHours = content.plan.sessions.reduce((h, s) => h + s.hours, 0);
 
 const A = ({ href, children }: { href: string; children: React.ReactNode }) => (
@@ -29,7 +32,7 @@ const A = ({ href, children }: { href: string; children: React.ReactNode }) => (
 export default function Home() {
   return (
     <>
-      <main className="mx-auto w-full max-w-2xl px-6 pb-8 pt-16 sm:pt-24">
+      <main className="mx-auto w-full max-w-2xl px-6 pt-16 sm:pt-24">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Citadel quant final round prep</h1>
 
         <div className="mt-8 space-y-5 text-[17px] leading-relaxed text-muted">
@@ -55,18 +58,22 @@ export default function Home() {
           </Link>
         </div>
 
-        <section className="mt-16">
-          <div className="mb-3 flex items-baseline justify-between">
-            <h2 className="font-medium text-text">The plan</h2>
-            <span className="font-mono text-xs text-dim">≈ {totalHours} h over {content.plan.sessions.length} sessions</span>
-          </div>
-          <PlanList rows={rows} />
-          <p className="mt-4 text-sm leading-relaxed text-dim">
-            Each module has short notes, coding tasks checked by tests, and the follow-up questions an interviewer asks once your code
-            works. Your code and progress stay in this browser.
-          </p>
-        </section>
       </main>
+
+      <section className="mx-auto w-full max-w-5xl px-6 pb-8 pt-14">
+        <div className="mb-4 flex items-baseline justify-between">
+          <h2 className="shrink-0 font-medium text-text">The plan</h2>
+          <span className="font-mono text-xs text-dim">
+            ≈ {totalHours} h over {content.plan.sessions.length} sessions
+            <span className="hidden sm:inline"> · one line per interview round</span>
+          </span>
+        </div>
+        <PlanMap stops={stops} sessions={content.plan.sessions.map((s) => ({ n: s.n, hours: s.hours }))} />
+        <p className="mt-4 text-sm leading-relaxed text-dim">
+          Each module has short notes, coding tasks checked by tests, and the follow-up questions an interviewer asks once your code works.
+          Stops light up as you finish them. Your progress stays in this browser.
+        </p>
+      </section>
       <SiteFooter />
     </>
   );

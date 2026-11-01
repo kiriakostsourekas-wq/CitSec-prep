@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRef, useState, useSyncExternalStore } from "react";
 import { type OfflineBank, offlinePlan, pdfToText, redact } from "@/lib/cv/offline";
 import { type CvItem, type CvQuestion, type Feedback, type SavedPlan, TARGETS, type Target } from "@/lib/cv/types";
+import { markVisited } from "@/lib/progress";
 import { Spinner } from "../workspace/status";
 
 const PLAN_KEY = "citprep:v1:cv-plan";
@@ -49,7 +50,10 @@ function Coach({ bank, moduleTitles }: { bank: OfflineBank; moduleTitles: Record
 
   const save = (p: SavedPlan | null) => {
     setSaved(p);
-    if (p) write(PLAN_KEY, p);
+    if (p) {
+      write(PLAN_KEY, p);
+      markVisited("guide/cv");
+    }
     else [PLAN_KEY, ANSWERS_KEY, WHY_KEY].forEach((k) => localStorage.removeItem(k));
     window.scrollTo({ top: 0 });
   };
